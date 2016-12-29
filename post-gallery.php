@@ -12,7 +12,18 @@ get_header(); ?>
 <div id="primary" class="content-area">
     <main id="main" class="site-main" role="main">
         <h1>All posts</h1>
-        <?php wp_get_archives('type=postbypost&order=ASC'); ?>
+        <?php
+            $args = array('posts_per_page' => -1);
+            $allposts = get_posts($args);
+            foreach($allposts as $post) : setup_postdata($post); ?>
+                <div class="gallery-thumbnail-container">
+                    <a href="<?php the_permalink(); ?>">
+                        <?php the_post_thumbnail('medium', array('class' => 'gallery-thumbnail-image'))?>
+                    </a>
+                    <p class="gallery-thumbnail-text"><?php the_title();?></p>
+                </div>
+        <?php endforeach;
+        wp_reset_postdata();?>
 
     </main><!-- #main -->
 </div><!-- #primary -->
